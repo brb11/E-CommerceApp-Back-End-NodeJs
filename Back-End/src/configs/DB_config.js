@@ -1,12 +1,12 @@
-const { MongoClient } = require('mongodb')
-let dbConnection
+const mongoose = require('mongoose')
 const db_url = process.env.DB_CON_STRING
+let dbConnection
 
 module.exports = {
     connectToDB: (cb) => {
-        MongoClient.connect(db_url)
-            .then((client) => {
-                dbConnection = client.db()
+        mongoose
+            .connect(process.env.DB_CON_STRING)
+            .then(() => {
                 return cb()
             })
             .catch((err) => {

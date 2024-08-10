@@ -1,32 +1,33 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const router = express()
-const DB = require('../models/product')
+const router = express.Router();
 const Product = require('../models/product')
 
+
 require('dotenv/config')
-//morgan logger :
 
-const api = process.env.api_url_v1
+Product.init();
+router.post(`/product`, async (request, response) => {
+    const newProduct = new Product({
+        name: 'Sample Product',
+        image: 'http://example.com/image.jpg',
+        price: 100,
+        countInStock: 50
+    });
 
-router.post(`/product`, (req, res) => {
-    const product = new Product({
-        name: req.body.name,
-        image: req.body.image,
-        price: req.body.price,
-        countInStock: req.body.countInStock,
-    })
-    product
-        .save()
-        .then((createdProduct) => {
-            res.status(201).json(createdProduct)
-        })
-        .catch((err) => {
-            res.status(500).json({
-                error: err,
-                success: false,
-            })
-        })
+    try {
+        await newProduct.save();
+        console.log('Product saved successfully');
+        response.send(newProduct);
+    } catch (err) {
+        console.error('Error saving product:', err);
+    }
+        
 })
 
+router.get('/product', (request, response) => {
+    Product.find()
+    .then(data => response.json(data))
+    .catch(error => response.json(error))
+});
 module.exports = router
