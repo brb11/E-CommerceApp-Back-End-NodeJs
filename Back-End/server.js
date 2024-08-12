@@ -3,7 +3,7 @@ const app = express()
 require('dotenv/config')
 const fs = require('fs')
 const body_parser = require('body-parser')
-const product = require('./src/routes/Product')
+const product = require('./src/routes/product')
 const { connectToDB, getDB } = require('./src/configs/DB_config')
 let db
 var logger = require('morgan')
@@ -15,7 +15,6 @@ app.use(
 )
 app.use(logger('dev'))
 //--------
-const api = process.env.api_url_v1
 const PORT = 3000
 app.use(body_parser.json())
 app.use(body_parser.urlencoded({ extended: true }))
