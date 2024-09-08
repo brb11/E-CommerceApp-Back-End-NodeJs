@@ -45,7 +45,7 @@ router.put('/product/:id', (req, res) => {
 
 router.delete('/product/:id', (req, res) => {
     const id = req.params.id
-    Product.findOneAndDelete(id)
+    Product.findByIdAndDelete(id)
         .then((data) => res.json('deleted successfully ..'))
         .catch((error) => res.json(error))
 })
